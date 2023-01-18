@@ -14,11 +14,12 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/Login';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import TabTwoScreen from '../screens/Konjos';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
+import Konjos from '../screens/Konjos';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -38,7 +39,7 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="TabTwo" component={TabTwoScreen} options={{ title: 'You are logged in!' }} />
+      <Stack.Screen name="Konjos" component={Konjos} options={{ title: 'Konjos' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

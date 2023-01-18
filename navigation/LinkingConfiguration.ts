@@ -20,7 +20,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         },
       },
       
-      TabTwo: "TabTwo",
+      Konjos: "Konjos",
       Modal: 'modal',
       NotFound: '*',
     },

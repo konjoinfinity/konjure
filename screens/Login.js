@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
           } else {
             SecureStore.setItemAsync(STORAGE_KEY, responseData.token);
             SecureStore.setItemAsync(STORAGE_USER, email);
-            navigation.navigate("TabTwo", {user: JSON.stringify(email)});
+            navigation.navigate("Konjos", {user: JSON.stringify(email)});
           }
         })
     } else {
