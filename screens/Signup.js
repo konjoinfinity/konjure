@@ -33,55 +33,40 @@ export default function Signup({ navigation }) {
         setConfirmpass('')
     }
 
-    async function onValueChange(item, selectedValue) {
-        try {
-            await SecureStore.setItemAsync(item, selectedValue);
-        } catch (error) {
-            console.log("SensitiveInfoStorage error: " + error.message);
-        }
-    }
-
     function handleSignup() {
-        let text = this.state.email
+        let text = email
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         if (reg.test(text) === true) {
-            if (this.state.password.length >= 8) {
-                fetch(konjoUrl + "users/signup", {
+            if (password.length >= 8) {
+                fetch("https://konjure-backend.onrender.com/users/signup", {
                     method: "POST",
                     headers: {
                         "Content-type": "application/json"
                     },
                     body: JSON.stringify({
-                        email: this.state.email,
-                        password: this.state.password,
-                        confirmpass: this.state.confirmpass
+                        email: email,
+                        password: password,
+                        confirmpass: confirmpass
                     })
-                })
-                    .then(response => response.json())
+                }).then(response => response.json())
                     .then(responseData => {
                         if (responseData.error) {
-                            // ReactNativeHaptic.generate('selection');
-                            Alert.alert('error', 'Error', `${responseData.error}`);
+                            Alert.alert(`${responseData.error}`);
                         } else {
-                            // ReactNativeHaptic.generate('selection');
-                            this.onValueChange(STORAGE_KEY, responseData.token);
-                            this.onValueChange(STORAGE_USER, this.state.email);
-                            this.props.navigation.push("Home", {
-                                signup: true, email: this.state.email
-                            });
-                            this.loginClear();
+                            SecureStore.setItemAsync(STORAGE_KEY, responseData.token);
+                            SecureStore.setItemAsync(STORAGE_USER, email);
+                            navigation.navigate("TabTwo", {user: JSON.stringify(email)});
+                            loginClear();
                         }
                     })
                     .catch(err => {
                         console.log(err);
                     });
             } else {
-                // ReactNativeHaptic.generate('selection');
-                Alert.alert('warn', 'Warning', "Passwords are required to have at least 8 characters.");
+                Alert.alert("Passwords are required to have at least 8 characters.");
             }
         } else {
-            // ReactNativeHaptic.generate('selection');
-            Alert.alert('warn', 'Warning', "Please enter valid email.");
+            Alert.alert("Please enter valid email.");
         }
     }
 
