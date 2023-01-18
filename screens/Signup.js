@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, ScrollView, Dimensions, Alert, TouchableWithoutFeedback } from "react-native";
-import { Text, View } from '../components/Themed';
+import React, { useState, useEffect } from "react";
+import { Image, StyleSheet, ScrollView, Dimensions, Alert, TouchableWithoutFeedback, useColorScheme, View, Text } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import { Input, Button, Icon } from '@ui-kitten/components';
 import * as Haptics from 'expo-haptics';
+import { useTheme } from '@react-navigation/native';
 
 const STORAGE_KEY = "id_token";
 const STORAGE_USER = "username";
@@ -13,6 +13,8 @@ export default function Signup({ navigation }) {
     const [password, setPassword] = useState('')
     const [confirmpass, setConfirmpass] = useState('')
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const { colors } = useTheme();
+  let colorScheme = useColorScheme();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -91,8 +93,9 @@ export default function Signup({ navigation }) {
 
         return (
             <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}} automaticallyAdjustKeyboardInsets={true} keyboardShouldPersistTaps='handled'>
-                    <Image source={require('../assets/images/Konjo.png')} style={{width: Dimensions.get('window').width * 0.5, height: Dimensions.get('window').width * 0.15}} />
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+                <View style={{height: Dimensions.get('window').height * 0.35}} />
+                    <Image source={colorScheme === "dark" ? require('../assets/images/Konjo.png') : require('../assets/images/Konjo1.png')} style={{width: Dimensions.get('window').width * 0.5, height: Dimensions.get('window').width * 0.15}} />
+      <View style={[styles.separator, {backgroundColor: colors.border} ]} />
                             <View style={styles.container}>
                                 <Input
                                     style={styles.input}
