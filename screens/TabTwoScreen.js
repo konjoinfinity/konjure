@@ -19,9 +19,17 @@ export default function TabTwoScreen({ navigation }) {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getValueFor(STORAGE_KEY)
+      
     });
     return unsubscribe;
   }, [navigation]);
+
+  async function getUser() {
+    const grab = await SecureStore.getItemAsync(STORAGE_USER)
+      if (grab) {
+        setEmail(grab)
+      }
+  }
 
   async function getValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
@@ -50,7 +58,7 @@ export default function TabTwoScreen({ navigation }) {
       return (
         <Card key={id} style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
           <TouchableOpacity style={{backgroundColor: colors.primary, borderRadius: 5}}
-            onPress={() =>navigation.navigate("NotFound", {communityId: `${JSON.stringify(community)}`})}>
+            onPress={() =>navigation.navigate("NotFound", {communityId: JSON.stringify(community), email: email})}>
             <Text style={{ fontSize: 25, textAlign: "center", padding: 5 }}>{community.name}</Text>
           </TouchableOpacity>
           <Text style={{ fontSize: 18, textAlign: "center", padding: 5 }}>

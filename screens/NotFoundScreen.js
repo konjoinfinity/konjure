@@ -1,5 +1,5 @@
-import { StyleSheet, TouchableOpacity, useColorScheme, ScrollView } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { StyleSheet, TouchableOpacity, useColorScheme, ScrollView, Button, TextInput, Keyboard, View } from 'react-native';
+import { Text } from '../components/Themed';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
@@ -10,25 +10,16 @@ const STORAGE_USER = "username";
 
 export default function NotFoundScreen({ route }) {
   const navigation = useNavigation();
-  const {communityId} = route.params;
+  const {communityId, email} = route.params;
   const [konjo, setKonjo] = useState(JSON.parse(communityId))
-  const [creator, setCreator] = useState('')
+  const [creator, setCreator] = useState("tim@tim.com")
   const { colors } = useTheme();
   let colorScheme = useColorScheme();
-  
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // setKonjo(communityId)
-      console.log(konjo)
-      setCreator(SecureStore.getItemAsync(STORAGE_USER))
-      console.log(JSON.parse(communityId))
-      console.log(communityId)
-    });
-    return unsubscribe;
-  }, [navigation]);
 
   console.log(konjo)
+  console.log(creator)
+  console.log(email)
+  let members;
     let commentlist;
     konjo &&
       (commentlist = konjo.comments.map((comment, id) => {
@@ -57,11 +48,9 @@ export default function NotFoundScreen({ route }) {
         userattending = meet.attending.filter(user => user.name === creator);
         usernotattending = meet.notAttending.filter(user => user.name === creator);
         usermaybeattending = meet.maybeAttending.filter(user => user.name === creator);
-        let members;
     konjo &&
       (members = konjo.map((member, id) => {
         return (
-          <Card key={id} style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 5, padding: 5}}>
             <View
               style={{
                 flex: 1,
@@ -74,22 +63,19 @@ export default function NotFoundScreen({ route }) {
                   title="🗑 Remove"
                   onPress={() => this.deleteMember(`${member._id}`)} />)}
             </View>
-          </Card>
         );
       }));
         return (
-          <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}} key={id}>
-            <View>
-              <Text style={{ fontSize: 30, padding: 5, textAlign: "center" }}>{meet.name}</Text>
+            <View key={id}>
+              <Text style={{ fontSize: 25, padding: 5, textAlign: "center" }}>{meet.name}</Text>
               <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>🗒 {meet.description}</Text>
               <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>📍 {meet.location}</Text>
               <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>📆 {meet.date}</Text>
               <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>🕒 {meet.time}</Text>
               <Text style={{ fontSize: 10, padding: 5, textAlign: "center" }}>👤 {meet.creator}</Text>
-              <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
                 <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>Who's Going?</Text>
                 <View>
-                  {meet.attending.length !== 0 && <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+                  {meet.attending.length !== 0 && 
                     <View>
                       <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>Attending</Text>
                       {meet.attending.map((going, id) => {
@@ -103,9 +89,8 @@ export default function NotFoundScreen({ route }) {
                           </View>
                         )
                       })}
-                    </View>
-                  </Card>}
-                  {meet.notAttending.length !== 0 && <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+                    </View>}
+                  {meet.notAttending.length !== 0 &&
                     <View>
                       <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>Not Attending</Text>
                       {meet.notAttending.map((notgoing, id) => {
@@ -119,9 +104,8 @@ export default function NotFoundScreen({ route }) {
                           </View>
                         )
                       })}
-                    </View>
-                  </Card>}
-                  {meet.maybeAttending.length !== 0 && <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+                    </View>}
+                  {meet.maybeAttending.length !== 0 &&
                     <View>
                       <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>Maybe Attending</Text>
                       {meet.maybeAttending.map((maybegoing, id) => {
@@ -135,8 +119,7 @@ export default function NotFoundScreen({ route }) {
                           </View>
                         )
                       })}
-                    </View>
-                  </Card>}
+                    </View>}
                   {userattending.length === 0 && (
                     usernotattending.length === 0 && (
                       usermaybeattending.length === 0 && (
@@ -158,8 +141,7 @@ export default function NotFoundScreen({ route }) {
                           title="Maybe Going 🤷🏻‍♂️🤷🏻‍♀️"
                           onPress={() => this.attendAll(`${meet._id}`, `${meet.name}`, push, maybeattending)} />
                       )))}
-                </View>
-              </Card>
+                </View>  
               {creator === meet.creator &&
                 <Text style={{ fontSize: 20, padding: 5, textAlign: "center" }}>Options</Text>}
             
@@ -179,21 +161,18 @@ export default function NotFoundScreen({ route }) {
                     <Text style={styles.buttonText}>Delete Meet 🗑</Text>
                   </TouchableOpacity>)}
             </View>
-          </Card>
         );
       }));
     return (
       <View>
         <ScrollView>
-            <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+        <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background}}>
             {konjo && (
               <View>
                 <Text style={{ fontSize: 40, padding: 10, textAlign: "center" }}>{konjo.name}</Text>
                 <Text style={{ fontSize: 30, padding: 10, textAlign: "center" }}>🗒 {konjo.description}</Text>
                 <Text style={{ fontSize: 30, padding: 10, textAlign: "center" }}>📝 {konjo.category}</Text>
               </View>)}
-            </Card>
-            <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
             {konjo && (
               <View>
                 <Text style={{ fontSize: 30, padding: 10, textAlign: "center" }}>👥 Members:  {konjo.numberOfMembers}</Text>
@@ -204,8 +183,6 @@ export default function NotFoundScreen({ route }) {
                     <View>{members}</View>)}
                 {member.length === 1 && <View>{members}</View>}
               </View>)}
-            </Card>
-            <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
               <View>
                 <Text style={{
                   fontSize: 25,
@@ -246,7 +223,7 @@ export default function NotFoundScreen({ route }) {
                     {konjo && creator === konjo.creator && (
                       <TouchableOpacity
                         style={styles.deleteButton}
-                        onPress={this.deleteCommunity}>
+                        onPress={() => deleteCommunity()}>
                         <Text style={styles.buttonText}>Delete Community 🗑</Text>
                       </TouchableOpacity>)}
                     {konjo && konjo.numberOfMembers >= 3 &&
@@ -271,7 +248,6 @@ export default function NotFoundScreen({ route }) {
                         </TouchableOpacity>)}
                   </View>
               </View>
-            </Card>
             {konjo && konjo.numberOfMembers >= 3 && member.length === 1 && (
               konjo.meets.length !== 0 && (
                 <Text style={{ fontSize: 30, padding: 10, textAlign: "center" }}>Meets</Text>))}
@@ -283,47 +259,47 @@ export default function NotFoundScreen({ route }) {
               <View>{meetlist}</View>)}
             {konjo && member.length === 1 && <View>{meetlist}</View>}
             {konjo && member.length === 1 && (
-              <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+              <View>
                 <View style={styles.inputContainer}>
                   <TextInput
                     style={styles.textInput}
                     name="comment"
                     id="comment"
                     onBlur={Keyboard.dismiss}
-                    onChangeText={this.handleCommentChange}
+                    onChangeText={() => this.handleCommentChange}
                     returnKeyType="send"
-                    value={this.state.comment}
-                    onSubmitEditing={this.handleComment} />
+                    value={""}
+                    onSubmitEditing={() => this.handleComment} />
                 </View>
                 <View style={styles.inputContainer}>
                   <TouchableOpacity
                     style={styles.saveButton}
-                    onPress={this.handleComment}>
+                    onPress={() => this.handleComment}>
                     <Text style={styles.buttonText}>Add Comment 💬</Text>
                   </TouchableOpacity>
                 </View>
-              </Card>)}
+                </View>)}
             {konjo && creator === konjo.creator && (
-              <Card style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
+              <View>
                 <View style={styles.inputContainer}>
                   <TextInput
                     style={styles.textInput}
                     name="comment"
                     id="comment"
                     onBlur={Keyboard.dismiss}
-                    onChangeText={this.handleCommentChange}
+                    onChangeText={() => this.handleCommentChange}
                     returnKeyType='send'
-                    value={this.state.comment}
-                    onSubmitEditing={this.handleComment} />
+                    value={""}
+                    onSubmitEditing={() => this.handleComment} />
                 </View>
                 <View style={styles.inputContainer}>
                   <TouchableOpacity
                     style={styles.saveButton}
-                    onPress={this.handleComment}>
+                    onPress={() => this.handleComment}>
                     <Text style={styles.buttonText}>Add Comment 💬</Text>
                   </TouchableOpacity>
                 </View>
-              </Card>)}
+                </View>)}
             {konjo && creator === konjo.creator && (
               konjo.comments.length !== 0 && (
                 <Text style={{ fontSize: 35, padding: 20, textAlign: "center" }}>Comments</Text>))}
@@ -334,28 +310,142 @@ export default function NotFoundScreen({ route }) {
               <View style={{ margin: 20 }}>{commentlist}</View>)}
             {konjo && member.length === 1 && (
               <View style={{ margin: 20 }}>{commentlist}</View>)}
+              </Card>
         </ScrollView>
       </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  inputContainer: {
+    paddingTop: 15
+  },
+  textInput: {
+    borderColor: "#CCCCCC",
+    borderWidth: 1,
+    height: 50,
+    fontSize: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 15
+  },
+  deleteButton: {
+    borderWidth: 1,
+    borderColor: "#FF1717",
+    backgroundColor: "#FF1717",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    textAlign: "center"
+  },
+  joinButton: {
+    borderWidth: 1,
+    borderColor: "#3D7E9A",
+    backgroundColor: "#3D7E9A",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  communityButton: {
+    borderWidth: 1,
+    borderColor: "#007BFF",
+    backgroundColor: "#007BFF",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  communities: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  editButton: {
+    borderWidth: 1,
+    borderColor: "#FFD517",
+    backgroundColor: "#FFD517",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  meetButton: {
+    borderWidth: 1,
+    borderColor: "#752794",
+    backgroundColor: "#752794",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  comment: {
+    borderWidth: 1,
+    borderColor: "#FFB944",
+    backgroundColor: "#FFB944",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  saveButton: {
+    borderWidth: 1,
+    borderColor: "#12C16D",
+    backgroundColor: "#12C16D",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  myCommunitiesButton: {
+    borderWidth: 1,
+    borderColor: "#FF8300",
+    backgroundColor: "#FF8300",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  homeButton: {
+    borderWidth: 1,
+    borderColor: "#12C16D",
+    backgroundColor: "#12C16D",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  joinedCommunitiesButton: {
+    borderWidth: 1,
+    borderColor: "#E0118A",
+    backgroundColor: "#E0118A",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  mapButton: {
+    borderWidth: 1,
+    borderColor: "#00B6B6",
+    backgroundColor: "#00B6B6",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  },
+  modal: {
+    height: 250,
+    backgroundColor: '#87BBE0',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    borderRadius: 15
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  modalText: {
+    fontSize: 25,
+    color: 'white',
+    padding: 10,
+    textAlign: "center"
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
+  leaveButton: {
+    borderWidth: 1,
+    borderColor: "#FF8300",
+    backgroundColor: "#FF8300",
+    padding: 15,
+    margin: 5,
+    borderRadius: 15
+  }
 });
