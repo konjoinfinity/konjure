@@ -2229,6 +2229,13 @@
     hoist-non-react-statics "^3.2.1"
     lodash.merge "^4.6.1"
 
+"@ui-kitten/eva-icons@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@ui-kitten/eva-icons/-/eva-icons-5.1.2.tgz#f128c4baf95d84a13067f02f0bdcb8df61178a9f"
+  integrity sha512-cUU6P469TgZ/vF9BrpBXFyTHttfXu/pHZiITfGw96BbaPn5GtBFSnorRtaOyqU4k2+pyzOA7rohqlbRY3jgAdA==
+  dependencies:
+    react-native-eva-icons "^1.3.1"
+
 "@urql/core@2.3.6":
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.3.6.tgz#ee0a6f8fde02251e9560c5f17dce5cd90f948552"
@@ -3809,6 +3816,11 @@ expo-font@~11.0.1:
   integrity sha512-LGAIluWZfru0J0n87dzb6pwAB6TVMTEiLcsd/ktozzbn4DlN7SeQy40+ruU6bvAKCOGrnRneYbKSIOGkrd7oNg==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-haptics@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-12.0.1.tgz#151dc57bc01c1fa16d021e4714b23916bbc9f8e5"
+  integrity sha512-YubK3P3WTdjp5mFZcaF3ienqXHoDqzPpe61yTEIR5y+CVWqk+If9cC3ZYxn6lSp8KiNUmz7zC0GvUAVEqn8t6Q==
 
 expo-keep-awake@~11.0.1:
   version "11.0.1"
@@ -6980,6 +6992,11 @@ react-native-codegen@^0.70.6:
     flow-parser "^0.121.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
+
+react-native-eva-icons@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-eva-icons/-/react-native-eva-icons-1.3.1.tgz#1e6e019b0fd3cb1669db50bd6bbdaa6d89327593"
+  integrity sha512-emd/aYXuOacuDVTx0SJoLi+xsOdCNdljQB3PTNCM9AQ3m/smG0X1TN0+ihelPO7MqoHzaH0h6lbANtwxGUy8Fw==
 
 react-native-gradle-plugin@^0.70.3:
   version "0.70.3"
