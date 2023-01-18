@@ -1,18 +1,17 @@
 import { StyleSheet, ScrollView, Alert } from 'react-native';
 import { useState } from 'react';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import { Input, Button } from '@ui-kitten/components';
 import * as SecureStore from 'expo-secure-store';
 
 const STORAGE_KEY = "id_token";
 const STORAGE_USER = "username";
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     let text = email
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     if (reg.test(text) === true) {
@@ -33,7 +32,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           } else {
             SecureStore.setItemAsync(STORAGE_KEY, responseData.token);
             SecureStore.setItemAsync(STORAGE_USER, email);
-            navigation.navigate("TabTwo");
+            navigation.navigate("TabTwo", {user: JSON.stringify(email)});
           }
         })
     } else {
@@ -42,7 +41,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   }
   
   
-  async function save(key: any, value: any) {
+  async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
 

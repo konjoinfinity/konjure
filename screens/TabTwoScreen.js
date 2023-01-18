@@ -5,24 +5,23 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Card } from '@ui-kitten/components';
 import { useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const STORAGE_KEY = "id_token";
 const STORAGE_USER = "username";
 
-export default function TabTwoScreen({ navigation }) {
+export default function TabTwoScreen({ route }) {
+  const navigation = useNavigation();
+  const {user} = route.params;
   const [token, setToken] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(JSON.parse(user));
   const [konjos, setKonjos] = useState();
   const { colors } = useTheme();
   let colorScheme = useColorScheme();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
       getValueFor(STORAGE_KEY)
-      
-    });
-    return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   async function getUser() {
     const grab = await SecureStore.getItemAsync(STORAGE_USER)
@@ -51,14 +50,14 @@ export default function TabTwoScreen({ navigation }) {
     }
   }
 
-
+console.log(email)
   let communities;
   konjos &&
     (communities = konjos.map((community, id) => {
       return (
         <Card key={id} style={{backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.background, margin: 10, padding: 5}}>
           <TouchableOpacity style={{backgroundColor: colors.primary, borderRadius: 5}}
-            onPress={() =>navigation.navigate("NotFound", {communityId: JSON.stringify(community), email: email})}>
+            onPress={() => navigation.navigate("NotFound", {communityId: JSON.stringify(community), email: JSON.stringify(email)})}>
             <Text style={{ fontSize: 25, textAlign: "center", padding: 5 }}>{community.name}</Text>
           </TouchableOpacity>
           <Text style={{ fontSize: 18, textAlign: "center", padding: 5 }}>

@@ -12,7 +12,7 @@ export default function NotFoundScreen({ route }) {
   const navigation = useNavigation();
   const {communityId, email} = route.params;
   const [konjo, setKonjo] = useState(JSON.parse(communityId))
-  const [creator, setCreator] = useState("tim@tim.com")
+  const [creator, setCreator] = useState(JSON.parse(email))
   const { colors } = useTheme();
   let colorScheme = useColorScheme();
 
