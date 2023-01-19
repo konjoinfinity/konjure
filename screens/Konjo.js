@@ -8,7 +8,7 @@ import { useTheme } from '@react-navigation/native';
 
 const STORAGE_USER = "username";
 
-export default function NotFoundScreen({ route }) {
+export default function Konjo({ route }) {
   const navigation = useNavigation();
   const {communityId, email} = route.params;
   const [konjo, setKonjo] = useState(JSON.parse(communityId))

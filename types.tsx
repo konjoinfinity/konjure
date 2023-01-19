@@ -18,7 +18,7 @@ export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
   Modal: undefined;
-  NotFound: undefined;
+  Konjo: undefined;
   Konjos: undefined;
 };
 

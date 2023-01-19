@@ -12,7 +12,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
+import NotFoundScreen from '../screens/Konjo';
 import TabOneScreen from '../screens/Login';
 import TabTwoScreen from '../screens/Konjos';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
@@ -20,6 +20,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Konjos from '../screens/Konjos';
+import Konjo from '../screens/Konjo';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -38,7 +39,7 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="Konjo" component={Konjo} options={{ title: 'Konjo' }} />
       <Stack.Screen name="Konjos" component={Konjos} options={{ title: 'Konjos' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

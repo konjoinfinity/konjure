@@ -22,7 +22,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       
       Konjos: "Konjos",
       Modal: 'modal',
-      NotFound: '*',
+      Konjo: 'Konjo',
     },
   },
 };
