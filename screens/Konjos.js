@@ -17,7 +17,7 @@ function Card1({ community, email }) {
   const { colors } = useTheme();
   let colorScheme = useColorScheme();
   return (
-    <Card key={id} style={[styles.card, {backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.border, alignItems: "center", justifyContent:"center" }]}>
+    <Card key={community._id} style={[styles.card, {backgroundColor: colorScheme === "dark" ? colors.border : colors.card, borderColor: colors.border, alignItems: "center", justifyContent:"center" }]}>
       <Text style={{ fontSize: 25, fontWeight: "bold", marginBottom: 25 }}>{community.name}</Text>
 
       <Text style={{fontWeight:"700", marginBottom: 5}}>Description:</Text>
@@ -44,7 +44,7 @@ function Card1({ community, email }) {
 function StatusCard({ text }) {
   return (
     <View>
-      <Text style={styles.cardsText}>{text}</Text>
+      <Text style={{color: "#fff", fontSize: 30}}>{text}</Text>
     </View>
   );
 }
@@ -92,7 +92,7 @@ export default function Konjos({ route }) {
 
   function handleYup(card) {
     console.log(`Yup for ${card.text}`);
-    return true; // return false if you wish to cancel the action
+    return true;
   }
   function handleNope(card) {
     console.log(`Nope for ${card.text}`);
@@ -100,34 +100,6 @@ export default function Konjos({ route }) {
   }
 
 console.log(email)
-  let communities;
-  konjos &&
-    (communities = konjos.map((community, id) => {
-      return (
-        // 
-          <View style={{alignItems: "center", justifyContent: "center", flexDirection: 'row', display: "flex"}}>
-          <View style={{width: Dimensions.get('window').width * 0.7}}>
-          <Text style={{ fontSize: 18, textAlign: "left", fontWeight: "bold" }}>{community.name}</Text>
-          <Text style={styles.cardtext}>
-          <Text style={{fontWeight:"700"}}>Description:</Text> {community.description}
-          </Text>
-          <Text style={styles.cardtext}>
-          <Text style={{fontWeight:"700"}}>Members:</Text> {community.numberOfMembers}
-          </Text>
-          <Text style={styles.cardtext}>
-          <Text style={{fontWeight:"700"}}>Creator:</Text> {community.creator}
-          </Text>
-          </View> 
-          <View>
-          <TouchableOpacity style={{backgroundColor: colors.primary, borderRadius: 5, height: 50, width: 50, justifyContent: "center", alignItems: "center"}}
-            onPress={() => navigation.navigate("NotFound", {communityId: JSON.stringify(community), email: JSON.stringify(email)})}>
-            <FontAwesome name="arrow-right" size={35} color="white" />
-          </TouchableOpacity>
-          </View>
-          </View>
-        // </Card>
-      );
-    }));
   return (
     <View style={{alignItems: 'flex-start', justifyContent: "center"}}>
       <View style={{marginBottom: 100}}/>
@@ -150,9 +122,6 @@ console.log(email)
       ) : (
         <StatusCard text="Loading..." />
       )}
-      {/* <ScrollView style={{backgroundColor:colors.background}}>
-          {communities}
-      </ScrollView> */}
     </View>
   );
 }
