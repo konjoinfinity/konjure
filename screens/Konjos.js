@@ -6,7 +6,6 @@ import { Card } from '@ui-kitten/components';
 import { useTheme } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
-// import SwipeCards from "react-native-swipe-cards-deck";
 import SwipeCards from 'react-native-swipe-cards';
 
 const STORAGE_KEY = "id_token";
